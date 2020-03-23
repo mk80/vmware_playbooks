@@ -1,0 +1,26 @@
+---
+- name: Add disks to a virtual machine (requires the virtual machine's uuid)
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+  - group_vars/vars.yaml
+
+  tasks:
+    - vmware_guest_disk:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        datacenter: '{{ datacenter }}'
+        validate_certs: no
+        uuid: '{{ uuid }}'
+        disk:
+        - size_gb: '{{ disk_size }}'
+          type: thin
+          datastore: '{{ datastore }}'
+          state: present
+          scsi_controller: 0
+          unit_number: '{{ unit_number }}'
+      register: vminfo
+
+    - debug:
+        var: vminfo

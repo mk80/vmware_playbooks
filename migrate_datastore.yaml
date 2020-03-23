@@ -1,0 +1,19 @@
+---
+- name: Perform storage vMotion of virtual machine (requires the virtual machine's uuid)
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+  - group_vars/vars.yaml
+
+  tasks:
+    - vmware_vmotion:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        validate_certs: no
+        uuid: '{{ uuid }}'
+        destination_datastore: '{{ destination_datastore }}'
+      register: migration_info
+
+    - debug:
+        var: migration_info

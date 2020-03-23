@@ -1,0 +1,17 @@
+# Required for all playbooks
+vcenter_hostname: 
+vcenter_username:
+vcenter_password:
+datacenter:
+cluster:
+datastore:
+destination_datastore:
+network:
+network_2:
+template:
+vm_name:
+uuid:
+disk_size:
+unit_number:
+memory:
+cpu:

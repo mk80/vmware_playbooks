@@ -1,0 +1,35 @@
+---
+- name: Create a virtual machine from template
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+  - group_vars/vars.yaml
+
+  tasks:
+    - vmware_guest:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        validate_certs: no
+        datacenter: '{{ datacenter }}'
+        cluster: '{{ cluster }}'
+        folder: /vm
+        name: '{{ vm_name }}'
+        state: poweredoff
+        template: '{{ template }}'
+        convert: thin
+        disk:
+        - size_gb: 100
+          type: thin
+          datastore: '{{ datastore }}'
+        hardware:
+          memory_mb: '{{ memory }}'
+          num_cpus: '{{ cpu }}'
+          num_cpu_cores_per_socket: 1
+        networks:
+        - name: '{{ network }}'
+        wait_for_ip_address: no
+      register: vminfo
+
+    - debug:
+        var: vminfo

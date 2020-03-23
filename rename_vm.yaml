@@ -1,0 +1,20 @@
+---
+- name: Rename a virtual machine (requires the virtual machine's uuid)
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+  - group_vars/vars.yaml
+
+  tasks:
+    - vmware_guest:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        validate_certs: no
+        uuid: '{{ uuid }}'
+        name: '{{ vm_name }}'
+        state: present
+      register: vminfo
+
+    - debug:
+        var: vminfo.instance.hw_name
